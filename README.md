@@ -2,6 +2,12 @@
 
 Picroft setup with support for JBL Go speakers.
 
+## TODOs
+
+- [ ] Improve speaker sound quality (specially for youtube skill)
+- [ ] Use Raspbian image instead of Picroft's (maybe using 5GHz WiFi improves audio quality)
+- [ ] Simplify setup with CustomPiOS
+
 ## Manual setup
 
 ### Requirements
@@ -104,6 +110,16 @@ listed as options.
 
 WIP. We'll use [CustomPiOS](https://github.com/guysoft/CustomPiOS) to generate
 an image with all the setup done.
+
+## Custom skills
+
+### Play from youtube
+
+```
+sudo apt-get install mplayer
+# sudo apt-get install ffmpeg
+msm install https://github.com/hexeratops/mycroft-youtube-skill
+```
 
 ## References
 

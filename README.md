@@ -26,6 +26,8 @@ dd bs=4M if=Picroft_v21.02.0_20210604.img of=/dev/mmcblk0 conv=fsync
 ```
 Here we use the RC image because the `v20.08` image is not compatible with a
 Raspberry Pi 4 8Gb.
+If you're using a Raspberry Pi 3b, increase your swap partition size, follow
+[instructions here](https://diyusthad.com/2022/01/how-to-increase-swap-size-in-raspberry-pi.html).
 
 2. Configure WiFi headless mode (*optional* - use ethernet alternatively): mount
 the microSD's `boot` partition and create in it a file named
@@ -58,6 +60,7 @@ sudo apt-get install pulseaudio-module-bluetooth
 ```
 A reboot may be neccessary. Additionally, bluetooth's service errors on the Pi
 can be fixed by following [these steps](https://peppe8o.com/fixed-connect-bluetooth-headphones-with-your-raspberry-pi/).
+Apparently, bluealsa is required too.
 
 6. Turn on your JBL Go speakers, set them to pairing mode, and pair the device
 with your Pi.
@@ -121,6 +124,11 @@ sudo apt-get install mplayer
 msm install https://github.com/hexeratops/mycroft-youtube-skill
 ```
 
+Modify the skill's `yt_player.sh` command to support bluetooth playback:
+```
+exec /bin/bash -c "$VENV_CMD exec python3 -m youtube_dl -o - "https://www.youtube.com/watch?v=$1" --quiet -f 'bestaudio[ext=m4a]' |  mplayer -ao alsa:device=bluealsa - -vo xy -volume "$2" > /dev/null 2>&1"
+```
+
 ## References
 
 * https://community.mycroft.ai/t/bluetooth-mic-speaker-combo/3002
@@ -128,3 +136,4 @@ msm install https://github.com/hexeratops/mycroft-youtube-skill
 * https://peppe8o.com/fixed-connect-bluetooth-headphones-with-your-raspberry-pi/
 * https://community.mycroft.ai/t/bluetooth-hsp-hfp/8199
 * https://community.mycroft.ai/t/input-output-with-bluetooth-speaker/8353
+* https://www.sigmdel.ca/michel/ha/rpi/bluetooth_in_rpios_02_en.html
